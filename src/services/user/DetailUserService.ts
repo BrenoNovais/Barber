@@ -1,0 +1,30 @@
+import prisma from "../../prisma/indexs"
+
+export class UserDetailService{
+
+    async execute(user_id: string){
+
+        const user = await prisma.user.findFirst({
+            where: {
+                id: user_id
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                endereco: true,
+                subscription: {
+                    select: {
+                        id: true,
+                        priceId: true,
+                        status: true
+                    }
+                }
+            }
+        })
+
+        return {user}
+    }
+}
+
+export default UserDetailService
